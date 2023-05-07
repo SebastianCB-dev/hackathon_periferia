@@ -35,10 +35,24 @@ class Server {
     this._app.use(cors({
       origin: '*'
     }));
+    this.validateJSON();
   }
 
   routes() {    
     this._app.use(HackathonRoute);
+  }
+
+  validateJSON() {
+    this._app.use((error: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+      if (error instanceof SyntaxError) {
+        return res.status(400)
+          .json({
+            message: 'Invalid JSON'
+          });
+      } else {
+        return next();
+      }
+    });
   }
 
 }
