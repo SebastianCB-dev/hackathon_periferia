@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 
+// Routes
+import HackathonRoute from '../routes/hackathon.route';
 
 class Server {
 
@@ -13,6 +15,9 @@ class Server {
 
     // Middlewares
     this.middlewares();
+
+    // Routes
+    this.routes();
   }
 
   get app(): express.Application {
@@ -30,6 +35,10 @@ class Server {
     this._app.use(cors({
       origin: '*'
     }));
+  }
+
+  routes() {    
+    this._app.use(HackathonRoute);
   }
 
 }
