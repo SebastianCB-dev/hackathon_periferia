@@ -5,7 +5,7 @@ import cors from 'cors';
 import HackathonRoute from '../routes/hackathon.route';
 
 // Database
-import { dbConnection } from '../helpers/db.helper';
+import { dbConnection } from '../db/configuration';
 
 class Server {
 
