@@ -1,15 +1,13 @@
 import mongoose from 'mongoose';
 
 const mutantSchema = new mongoose.Schema({
-  count_mutant_dna: {
-    type: Number,
-    required: true,
-    default: 0
+  dna: {
+    type: Array,
+    required: true
   },
-  count_human_dna: {
-    type: Number,
-    required: true,
-    default: 0
+  isMutant: {
+    type: Boolean,
+    required: true
   }
 });
 
