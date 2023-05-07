@@ -1,11 +1,10 @@
-import { MongoClient } from 'mongodb';
+import mongoose from 'mongoose';
 
 export const dbConnection = async () => {
   try {
-    const client = await MongoClient.connect(process.env.MONGODB_CNN || '');
-    return client.db('hackathon');
-  }
-  catch(error)  {
+    await mongoose.connect(process.env.MONGODB_CNN || '');
+    return mongoose.connection.db;
+  } catch (error) {
     console.log(error);
     throw new Error('Error initializing database');
   }
