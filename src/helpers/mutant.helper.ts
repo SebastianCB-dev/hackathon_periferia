@@ -56,28 +56,22 @@ export const isMutantHorizontal = (dna: string[]): boolean => {
 export const DNAValidator = (dna: string[], res: Response) => {
   // Validate if the DNA has the correct format.
   if (!Array.isArray(dna) || dna.length < 4) {
-    return res.status(400).json({
-      message: 'DNA has an incorrect format'
-    });
+    return false;
   }
 
   // Validate if the DNA has the correct characters.
   const validCharacters = ['A', 'T', 'C', 'G'];
-  const invalidCharacters = dna.filter((dnaRow: string) => {
-    dnaRow.split('').filter((character: string) => !validCharacters.includes(character));
-  });
+  const invalidCharacters = dna.filter((dnaRow: string) => 
+    dnaRow.split('')
+      .filter((character: string) => !validCharacters.includes(character)).length > 0);
   if (invalidCharacters.length > 0) {
-    return res.status(400).json({
-      message: 'DNA has an incorrect format'
-    });
+    return false;
   }
 
   // Validate if the DNA has the correct length.
   const invalidLength = dna.filter((dnaRow: string) => dnaRow.length !== dna.length);
   if (invalidLength.length > 0) {
-    return res.status(400).json({
-      message: 'DNA has an incorrect format'
-    });
+    return false;
   }
   return true;
 }

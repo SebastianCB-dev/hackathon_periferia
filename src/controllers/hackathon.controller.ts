@@ -17,7 +17,12 @@ export const checkMutant = async (req: Request, res: Response) => {
   }
 
   // Validators of the DNA if is a valid array NxN.
-  DNAValidator(dna, res);
+  const result = DNAValidator(dna, res);
+  if (!result) {
+    return res.status(400).json({
+      message: 'DNA has an incorrect format'
+    });
+  }
 
   // Validate if the DNA already exists in the database.
   const mutant = await thereIsAMutant(dna);

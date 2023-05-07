@@ -65,8 +65,9 @@ describe('Mutant detection API', () => {
           'TCACTG'
         ]
       });
+      console.log(response)
       expect(response.status).toBe(400);
-      expect(response.body.message).toEqual({
+      expect(response.body).toEqual({
         message: 'DNA has an incorrect format'
       });
     });
