@@ -1,4 +1,6 @@
 import express from 'express';
+import cors from 'cors';
+
 
 class Server {
 
@@ -8,6 +10,13 @@ class Server {
   constructor() {
     this._PORT = process.env.PORT || '3000';
     this._app = express();
+
+    // Middlewares
+    this.middlewares();
+  }
+
+  get app(): express.Application {
+    return this._app;
   }
 
   start() {
@@ -16,8 +25,11 @@ class Server {
     });
   }
 
-  get app(): express.Application {
-    return this._app;
+  middlewares() {
+    this._app.use(express.json());
+    this._app.use(cors({
+      origin: '*'
+    }));
   }
 
 }
