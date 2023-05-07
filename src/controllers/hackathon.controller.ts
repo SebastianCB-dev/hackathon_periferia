@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 
-
 export const checkMutant = (req: Request, res: Response) => {
   const { dna } = req.body;
 
@@ -18,32 +17,43 @@ export const checkMutant = (req: Request, res: Response) => {
 }
 
 const isMutant = (dna: string[][]): boolean => {
-  const isMutant: boolean = false;
   let sequenceCount: number = 0;
   for (let i = 0; i < dna.length; i++) {
     // Horizontal check
     if (isMutantHorizontal(dna[i])) sequenceCount++;
 
     for (let j = 0; j < dna[i].length; j++) {
-      if(j < dna[i].length - 3 && 
-         dna[i][j] === dna[i][j + 1] && 
-         dna[i][j] === dna[i][j + 2] && 
-         dna[i][j] === dna[i][j + 3]) {
-        sequenceCount++;
-      }
-      if(i === 3 && 
-         dna[i][j] === dna[i - 1][j] && 
-         dna[i][j] === dna[i - 2][j] && 
-         dna[i][j] === dna[i - 3][j]) {
-        sequenceCount++;
-      }
+      // Principal diagonal check
+      if(isMutantObliquePrimaryDiagonal(dna, i, j)) sequenceCount++;      
+      // Secondary diagonal check
+      if(isMutantObliqueSecondaryDiagonal(dna, i, j)) sequenceCount++;      
+      // Vertical check
+      if(isMutantVertical(dna, i, j)) sequenceCount++;
     }
   }
-  console.log(sequenceCount);
-  if (sequenceCount >= 2) {
-    return true;
-  }
-  return isMutant;
+  (sequenceCount >= 2) ? console.log('Es mutante') : console.log('No es mutante');
+  return (sequenceCount >= 2) ? true : false;
+}
+
+const isMutantObliquePrimaryDiagonal = (dna: string[][], i: number, j: number): boolean => {
+  return j < dna[i].length - 3 &&
+    dna[i][j] === dna[i][j + 1] &&
+    dna[i][j] === dna[i][j + 2] &&
+    dna[i][j] === dna[i][j + 3];
+}
+
+const isMutantObliqueSecondaryDiagonal = (dna: string[][], i: number, j: number): boolean => {
+  return i >= 3 &&
+    dna[i][j] === dna[i - 1][j] &&
+    dna[i][j] === dna[i - 2][j] &&
+    dna[i][j] === dna[i - 3][j];
+}
+
+const isMutantVertical = (dna: string[][], i: number, j: number): boolean => {
+  return i < dna.length - 3 &&
+    dna[i][j] === dna[i + 1][j] &&
+    dna[i][j] === dna[i + 2][j] &&
+    dna[i][j] === dna[i + 3][j];
 }
 
 const isMutantHorizontal = (dna: string[]): boolean => {
