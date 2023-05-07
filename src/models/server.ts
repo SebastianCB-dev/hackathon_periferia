@@ -4,6 +4,9 @@ import cors from 'cors';
 // Routes
 import HackathonRoute from '../routes/hackathon.route';
 
+// Database
+import { dbConnection } from '../helpers/db.helper';
+
 class Server {
 
   private _PORT: string;
@@ -12,6 +15,9 @@ class Server {
   constructor() {
     this._PORT = process.env.PORT || '3000';
     this._app = express();
+
+    // Database
+    this.dbConnection();
 
     // Middlewares
     this.middlewares();
@@ -28,6 +34,17 @@ class Server {
     this._app.listen(this._PORT, () => {
       console.log(`Server running on port ${this._PORT}`);
     });
+  }
+
+  dbConnection() {
+    try {
+      dbConnection();
+      console.log('Database initialized');
+    }
+    catch (error) {
+      console.log(error);
+      throw new Error('Error initializing database');
+    }
   }
 
   middlewares() {
