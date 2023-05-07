@@ -1,23 +1,25 @@
-
+// This function receives a 2D array (matrix) representing a DNA sequence
+// and returns a boolean indicating whether the sequence corresponds to a mutant.
 export const isMutant = (dna: string[][]): boolean => {
   let sequenceCount: number = 0;
   for (let i = 0; i < dna.length; i++) {
-    // Horizontal check
+    // Check for horizontal sequences of 4 or more equal letters in each row
     if (isMutantHorizontal(dna[i])) sequenceCount++;
 
     for (let j = 0; j < dna[i].length; j++) {
-      // Principal diagonal check
+      // Check for sequences of 4 or more equal letters in the primary diagonal
       if (isMutantObliquePrimaryDiagonal(dna, i, j)) sequenceCount++;
-      // Secondary diagonal check
+      // Check for sequences of 4 or more equal letters in the secondary diagonal
       if (isMutantObliqueSecondaryDiagonal(dna, i, j)) sequenceCount++;
-      // Vertical check
+      // Check for sequences of 4 or more equal letters in each column
       if (isMutantVertical(dna, i, j)) sequenceCount++;
     }
   }
+  // A DNA sequence is considered mutant if there are at least two sequences of 4 or more equal letters
   return sequenceCount >= 2;
 }
 
-
+// This function checks for sequences of 4 or more equal letters in the primary diagonal.
 const isMutantObliquePrimaryDiagonal = (dna: string[][], i: number, j: number): boolean => {
   return j < dna[i].length - 3 &&
     dna[i][j] === dna[i][j + 1] &&
@@ -25,6 +27,7 @@ const isMutantObliquePrimaryDiagonal = (dna: string[][], i: number, j: number): 
     dna[i][j] === dna[i][j + 3];
 }
 
+// This function checks for sequences of 4 or more equal letters in the secondary diagonal.
 const isMutantObliqueSecondaryDiagonal = (dna: string[][], i: number, j: number): boolean => {
   return i >= 3 &&
     dna[i][j] === dna[i - 1][j] &&
@@ -32,7 +35,7 @@ const isMutantObliqueSecondaryDiagonal = (dna: string[][], i: number, j: number)
     dna[i][j] === dna[i - 3][j];
 }
 
-
+// This function checks for sequences of 4 or more equal letters in each column.
 const isMutantVertical = (dna: string[][], i: number, j: number): boolean => {
   return i < dna.length - 3 &&
     dna[i][j] === dna[i + 1][j] &&
@@ -40,8 +43,9 @@ const isMutantVertical = (dna: string[][], i: number, j: number): boolean => {
     dna[i][j] === dna[i + 3][j];
 }
 
+// This function checks for sequences of 4 or more equal letters in each row
+// using a regular expression that matches 4 or more consecutive letters.
 const isMutantHorizontal = (dna: string[]): boolean => {
-  // *This regex matches 4 or more consecutive letters  
   const regex: RegExp = /([A|T|C|G])\1{3,}/g;
   return dna.join('').match(regex) ? true : false;
 }
