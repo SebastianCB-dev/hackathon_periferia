@@ -107,7 +107,7 @@ describe('validator Horizontal', () => {
       'FDADDD',
       'DFDAFD',
       'DDDDDC',
-      'TCACTD'
+      'TCACTF'
     ];
     const dnaParsed: string[][] = dna.map((dnaRow: string) => dnaRow.split(''));
     expect(isMutantHorizontal(dnaParsed[1])).toBe(false);
