@@ -1,11 +1,12 @@
 import { Request, Response } from 'express';
 
 import { isMutant } from '../helpers/mutant.helper';
+import { saveMutant, thereIsAMutant } from '../helpers/db.helper';
 
 // Controller that handles the request to check if the DNA is mutant.
 // If the DNA is mutant, it returns a status 200 and a message of true.
 // If it is not mutant, it returns a status 403 and a message of false.
-export const checkMutant = (req: Request, res: Response) => {
+export const checkMutant = async (req: Request, res: Response) => {
   const { dna } = req.body;
 
   if (!dna) {
@@ -14,7 +15,16 @@ export const checkMutant = (req: Request, res: Response) => {
     });
   }
 
+  // Validate if the DNA already exists in the database.
+  const mutant = await thereIsAMutant(dna);
+  if (mutant) {
+    return res.status(mutant.isMutant ? 200 : 403).send(mutant.isMutant);
+  }
+
   const dnaParsed: string[][] = dna.map((dnaRow: string) => dnaRow.split(''));
   const isMutantResult: boolean = isMutant(dnaParsed);
+  // Save to database
+  await saveMutant(dna, isMutantResult);
+  // Return result
   return res.status(isMutantResult ? 200 : 403).send(isMutantResult);
 }

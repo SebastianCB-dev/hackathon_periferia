@@ -6,3 +6,10 @@ export const thereIsAMutant = async (dna: string[]) => {
   return mutant;
   
 }
+
+export const saveMutant = async (dna: string[], isMutant: boolean) => {
+    
+    const mutant = new Mutant({ dna: dna, isMutant: isMutant });
+    await mutant.save();
+    
+}
