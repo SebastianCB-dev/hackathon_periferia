@@ -1,0 +1,14 @@
+# Dependency directories
+node_modules/
+dist/
+build/
+coverage/
+.nyc_output/
+# Environment variables
+.env*
+# TypeScript related files
+*.tsbuildinfo
+*.js.map
+*.d.ts
+# Visual Studio Code related files
+.vscode/
