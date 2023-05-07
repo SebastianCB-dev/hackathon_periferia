@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import { isMutant } from '../helpers/mutant.helper';
+import { DNAValidator, isMutant } from '../helpers/mutant.helper';
 import { saveMutant, thereIsAMutant } from '../helpers/db.helper';
 import { Mutant } from '../models/mutant';
 
@@ -15,6 +15,9 @@ export const checkMutant = async (req: Request, res: Response) => {
       message: 'DNA is required'
     });
   }
+
+  // Validators of the DNA if is a valid array NxN.
+  DNAValidator(dna, res);
 
   // Validate if the DNA already exists in the database.
   const mutant = await thereIsAMutant(dna);

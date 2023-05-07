@@ -1,4 +1,7 @@
 // This function receives a 2D array (matrix) representing a DNA sequence
+
+import { Response } from "express";
+
 // and returns a boolean indicating whether the sequence corresponds to a mutant.
 export const isMutant = (dna: string[][]): boolean => {
   let sequenceCount: number = 0;
@@ -48,4 +51,33 @@ export const isMutantVertical = (dna: string[][], i: number, j: number): boolean
 export const isMutantHorizontal = (dna: string[]): boolean => {
   const regex: RegExp = /([A|T|C|G])\1{3,}/g;
   return dna.join('').match(regex) ? true : false;
+}
+
+export const DNAValidator = (dna: string[], res: Response) => {
+  // Validate if the DNA has the correct format.
+  if (!Array.isArray(dna) || dna.length < 4) {
+    return res.status(400).json({
+      message: 'DNA has an incorrect format'
+    });
+  }
+
+  // Validate if the DNA has the correct characters.
+  const validCharacters = ['A', 'T', 'C', 'G'];
+  const invalidCharacters = dna.filter((dnaRow: string) => {
+    dnaRow.split('').filter((character: string) => !validCharacters.includes(character));
+  });
+  if (invalidCharacters.length > 0) {
+    return res.status(400).json({
+      message: 'DNA has an incorrect format'
+    });
+  }
+
+  // Validate if the DNA has the correct length.
+  const invalidLength = dna.filter((dnaRow: string) => dnaRow.length !== dna.length);
+  if (invalidLength.length > 0) {
+    return res.status(400).json({
+      message: 'DNA has an incorrect format'
+    });
+  }
+  return true;
 }
