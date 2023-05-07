@@ -1,16 +1,9 @@
-import { Request, Response, Router } from 'express';
+import { Router } from 'express';
+import { isMutant } from '../controllers/hackathon.controller';
 
 const router = Router();
 
 // * POST {{url}}/mutant
-router.post('/mutant', (req: Request, res: Response) => {
-  return res.status(200).json({
-    ok: true,
-    message: 'Mutant'
-  });
-});
-
-
-
+router.post('/mutant', isMutant);
 
 export default router;
