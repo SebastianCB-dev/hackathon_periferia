@@ -19,11 +19,10 @@ export const checkMutant = (req: Request, res: Response) => {
 const isMutantDNA = (dna: string[][]): boolean => {
   const isMutant = false;
   let sequenceCount = 0;
-  // *This regex matches 4 or more consecutive letters  
   for(let i = 0; i < dna.length; i++) {    
-    if(isMutantHorizontal(dna[i])) {
-      sequenceCount++;
-    }
+    // Horizontal check
+    if(isMutantHorizontal(dna[i])) sequenceCount++;
+
     for(let j = 0; j < dna[i].length; j++) {
       
     }
@@ -36,6 +35,7 @@ const isMutantDNA = (dna: string[][]): boolean => {
 }
 
 const isMutantHorizontal = (dna: string[]): boolean => {  
+  // *This regex matches 4 or more consecutive letters  
   const regex = /([A|T|C|G])\1{3,}/g;
   return dna.join('').match(regex) ? true : false;
 }
