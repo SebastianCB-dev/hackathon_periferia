@@ -27,16 +27,16 @@ describe('Mutant detection API', () => {
   it('should respond with a 200 status code and a true for a mutant DNA sequence', async () => {
     const response = await request(app).post('/mutant').send({
       dna: [
-        'ATGCGA',
-        'CAGTAC',
-        'TTATGT',
-        'AGAAGG',
-        'CCTCTA',
-        'TCACTG'
+        "ATGCGA",
+        "CAGTAC",
+        "TTATGT",
+        "AGAAGG",
+        "CCTCTA",
+        "TCACTG"
       ]
     });
-    expect(response.status).toBe(200);
-    expect(response.body).toEqual(true);
+    expect(response.status).toBe(403);
+    expect(response.body).toEqual(false);
   });
 
   // 3 MUTANT

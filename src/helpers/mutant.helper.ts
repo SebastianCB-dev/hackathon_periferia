@@ -7,24 +7,37 @@ export const isMutant = (dna: string[][]): boolean => {
   let sequenceCount: number = 0;
   for (let i = 0; i < dna.length; i++) {
     // Check for horizontal sequences of 4 or more equal letters in each row
-    if (isMutantHorizontal(dna[i])) sequenceCount++;
-
+    if (isMutantHorizontal(dna[i]))  {
+      sequenceCount++;
+      console.log('1')
+    }
     for (let j = 0; j < dna[i].length; j++) {
       // Check for sequences of 4 or more equal letters in the primary diagonal
-      if (isMutantObliquePrimaryDiagonal(dna, i, j)) sequenceCount++;
+      if (isMutantObliquePrimaryDiagonal(dna, i, j)) {
+        sequenceCount++;
+        console.log('2')
+      } 
+        
       // Check for sequences of 4 or more equal letters in the secondary diagonal
-      if (isMutantObliqueSecondaryDiagonal(dna, i, j)) sequenceCount++;
+      if (isMutantObliqueSecondaryDiagonal(dna, i, j)) {
+        sequenceCount++;
+        console.log('3')
+      }
       // Check for sequences of 4 or more equal letters in each column
-      if (isMutantVertical(dna, i, j)) sequenceCount++;
+      if (isMutantVertical(dna, i, j)) {
+        sequenceCount++;
+        console.log('4')
+      }
     }
   }
+  console.log(sequenceCount)
   // A DNA sequence is considered mutant if there are at least two sequences of 4 or more equal letters
   return sequenceCount >= 2;
 }
 
 // This function checks for sequences of 4 or more equal letters in the primary diagonal.
 export const isMutantObliquePrimaryDiagonal = (dna: string[][], i: number, j: number): boolean => {
-  return j < dna[i].length - 3 &&
+  return j < dna[i].length - 3 && i < dna.length - 3 &&
     dna[i][j] === dna[i + 1]?.[j + 1] &&
     dna[i][j] === dna[i + 2]?.[j + 2] &&
     dna[i][j] === dna[i + 3]?.[j + 3];
@@ -32,7 +45,7 @@ export const isMutantObliquePrimaryDiagonal = (dna: string[][], i: number, j: nu
 
 // This function checks for sequences of 4 or more equal letters in the secondary diagonal.
 export const isMutantObliqueSecondaryDiagonal = (dna: string[][], i: number, j: number): boolean => {
-  return i >= 3 &&
+  return i >= 3 && j < dna[i].length - 3 &&
     dna[i][j] === dna[i - 1]?.[j - 1] &&
     dna[i][j] === dna[i - 2]?.[j - 2] &&
     dna[i][j] === dna[i - 3]?.[j - 3];
@@ -53,7 +66,7 @@ export const isMutantHorizontal = (dna: string[]): boolean => {
   return dna.join('').match(regex) ? true : false;
 }
 
-export const DNAValidator = (dna: string[], res: Response) => {
+export const DNAValidator = (dna: string[], res: Response): boolean => {
   // Validate if the DNA has the correct format.
   if (!Array.isArray(dna) || dna.length < 4) {
     return false;
